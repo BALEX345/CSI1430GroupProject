@@ -1,0 +1,68 @@
+# depslib dependency file v1.0
+1670364322 source:c:\users\samuel fries\documents\comp sci\snake\main.cpp
+	<iostream>
+	<string>
+	<fstream>
+	"SDL_Plotter.h"
+	"Player.h"
+	<stdio.h>
+	<stdlib.h>
+	<ctime>
+	"Snake.h"
+	"TEXT.h"
+	"Music.h"
+
+1670290314 c:\users\samuel fries\documents\comp sci\snake\sdl_plotter.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_mixer.h>
+	<string.h>
+	<iostream>
+	<string>
+	<string.h>
+	<map>
+	<queue>
+
+1670287467 source:c:\users\samuel fries\documents\comp sci\snake\sdl_plotter.cpp
+	"SDL_Plotter.h"
+
+1670360568 source:c:\users\samuel fries\documents\comp sci\snake\player.cpp
+	"Player.h"
+	<iostream>
+
+1670353619 c:\users\samuel fries\documents\comp sci\snake\player.h
+	<vector>
+	<string>
+	<ostream>
+
+1670094739 source:c:\users\samuel fries\documents\comp sci\snake\fruit.cpp
+	"Fruit.h"
+
+1670095607 c:\users\samuel fries\documents\comp sci\snake\fruit.h
+	"SDL_Plotter.h"
+
+1670289616 source:c:\users\samuel fries\documents\comp sci\snake\snake.cpp
+	"Snake.h"
+
+1670289622 c:\users\samuel fries\documents\comp sci\snake\snake.h
+	<vector>
+	"SDL_Plotter.h"
+
+1670204250 source:c:\users\samuel fries\documents\comp sci\snake\gamefunctions.cpp
+
+1670204250 c:\users\samuel fries\documents\comp sci\snake\gamefunctions.h
+
+1670360785 source:c:\users\samuel fries\documents\comp sci\snake\text.cpp
+	"TEXT.h"
+
+1670359670 c:\users\samuel fries\documents\comp sci\snake\text.h
+	"SDL_Plotter.h"
+	<fstream>
+	<string>
+
+1670339470 source:c:\users\samuel fries\documents\comp sci\snake\music.cpp
+	"Music.h"
+
+1670339386 c:\users\samuel fries\documents\comp sci\snake\music.h
+	"SDL_Plotter.h"
+	<string>
+
