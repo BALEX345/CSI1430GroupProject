@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1670387324 source:c:\users\samuel fries\documents\comp sci\snake\main.cpp
+1670393685 source:c:\users\samuel fries\documents\comp sci\snake\main.cpp
 	<iostream>
 	<string>
 	<fstream>
@@ -12,7 +12,7 @@
 	"TEXT.h"
 	"Music.h"
 
-1670386021 c:\users\samuel fries\documents\comp sci\snake\sdl_plotter.h
+1670393685 c:\users\samuel fries\documents\comp sci\snake\sdl_plotter.h
 	<SDL2/SDL.h>
 	<SDL2/SDL_mixer.h>
 	<string.h>
@@ -40,10 +40,10 @@
 1670095607 c:\users\samuel fries\documents\comp sci\snake\fruit.h
 	"SDL_Plotter.h"
 
-1670289616 source:c:\users\samuel fries\documents\comp sci\snake\snake.cpp
+1670393481 source:c:\users\samuel fries\documents\comp sci\snake\snake.cpp
 	"Snake.h"
 
-1670383449 c:\users\samuel fries\documents\comp sci\snake\snake.h
+1670393448 c:\users\samuel fries\documents\comp sci\snake\snake.h
 	<vector>
 	"SDL_Plotter.h"
 
@@ -54,15 +54,15 @@
 1670381936 source:c:\users\samuel fries\documents\comp sci\snake\text.cpp
 	"TEXT.h"
 
-1670381928 c:\users\samuel fries\documents\comp sci\snake\text.h
+1670393290 c:\users\samuel fries\documents\comp sci\snake\text.h
 	"SDL_Plotter.h"
 	<fstream>
 	<string>
 
-1670387351 source:c:\users\samuel fries\documents\comp sci\snake\music.cpp
+1670392237 source:c:\users\samuel fries\documents\comp sci\snake\music.cpp
 	"Music.h"
 
-1670387343 c:\users\samuel fries\documents\comp sci\snake\music.h
+1670393541 c:\users\samuel fries\documents\comp sci\snake\music.h
 	"SDL_Plotter.h"
 	<string>
 

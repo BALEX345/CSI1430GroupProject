@@ -1,3 +1,39 @@
+/*
+ * Authors: Samuel Fries
+ *          Alejandro Garcia Jr
+ *          Christian Wright
+ *          Luke Heard
+ *          Zac Benson
+ *
+ *          sam_fries1
+ *          alex_garcia17
+ *          christian_wright2
+ *          luke_heard1
+ *          zac_benson1
+ *
+ *          Honorable Mentions (Assistance with assets)
+ *          * Josh Prior - Music
+ *          * Alejandro Garcia Jr - Vocals
+ *          * Megan Monthofer - Explaining Text
+ *          * MyInstants.com - Sound effects
+ *
+ * Assignment Title: CSI1430 Group Project - Snake Game
+ * Assignment Description: This program creates a working Snake Game.
+ *                         The game asks for a Name, and Pin (these are saved)
+ *                         Contains a menu screen, game screen, and outro.
+ * Due Date: 12/07/2022
+ * Date Created: 11/24/2022
+ * Date Last Modified: 12/07/2022
+ *
+ * Data Abstraction: Creates all necessary variables to make our snake game.
+ * Input:            Takes in the users name and pin and stores them into a file. (This is used to save high scores.)
+ * Process:          Creates the game, displays the menu screen with instructions, displays the game screen,
+ *                   lets the user play the game.
+ * Output:           A working game is output to the screen.
+ * Assumptions:      Assumes that the user has a working computer.
+ *                   Assumes that the user can follow instructions.
+ */
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -389,38 +425,22 @@ int main(int argc, char **argv)
                 if(snake.touchingFruit(fruit, true)){
                     fruit.spawnFruit(NUM_COL);
                 }
-                g.plotFruit(fruit, FRUIT_COLOR, SIZE);
+                g.plotSquare(fruit, FRUIT_COLOR, SIZE);
 
                 fruitSpawned = true;
             }
             else if (snake.touchingFruit(fruit, false)){
                 snake.addPoint(xyLocPrev);
                 userScore++;
-                switch(rand()%5){
-                case 0:
-                    m.playEat(g, 0);
-                    break;
-                case 1:
-                    m.playEat(g, 1);
-                    break;
-                case 2:
-                    m.playEat(g, 2);;
-                    break;
-                case 3:
-                    m.playEat(g, 3);
-                    break;
-                case 4:
-                    m.playEat(g, 4);
-                    break;
-                }
+                m.playSFX(g, rand()%5 +14);
                 if(userScore > userHighScore){
                     userHighScore = userScore;
                 }
-                g.plotFruit(fruit, GAME_ERASE_COLOR, SIZE);
+                g.plotSquare(fruit, GAME_ERASE_COLOR, SIZE);
                 fruitSpawned = false;
             }
             else if(pause){
-                g.plotFruit(fruit, FRUIT_COLOR, SIZE);
+                g.plotSquare(fruit, FRUIT_COLOR, SIZE);
                 pause = false;
                 pauseShift = 0;
             }
@@ -449,13 +469,13 @@ int main(int argc, char **argv)
             }
 
 
-            g.plotFruit(snake.getPoint(snake.getLength()), GAME_ERASE_COLOR, SIZE);
+            g.plotSquare(snake.getPoint(snake.getLength()), GAME_ERASE_COLOR, SIZE);
 
 
 
             // Draw
             for(int i = 0; i < snake.getLength(); i++){
-                g.plotFruit(snake.getPoint(i), SNAKE_COLOR, SIZE);
+                g.plotSquare(snake.getPoint(i), SNAKE_COLOR, SIZE);
 
             }
 
@@ -465,29 +485,13 @@ int main(int argc, char **argv)
 
                 snake.touchingFruit(snake.getPoint(0), true)){
                 if(wait == 0){
-                    switch(rand()%5){
-                    case 0:
-                        m.playHit(g, 0);
-                        break;
-                    case 1:
-                        m.playHit(g, 1);
-                        break;
-                    case 2:
-                        m.playHit(g, 2);
-                        break;
-                    case 3:
-                        m.playHit(g, 3);
-                        break;
-                    case 4:
-                        m.playHit(g, 4);
-                        break;
-                    }
+                    m.playSFX(g, rand()%13);
                 }
                 wait++;
 
                 for(int i = snake.getLength(); i >= wait; i--){
                     for(int j = 0; j <= wait; j++){
-                        g.plotFruit(snake.getPoint(j-1), FRUIT_COLOR, SIZE);
+                        g.plotSquare(snake.getPoint(j-1), FRUIT_COLOR, SIZE);
                     }
                 }
 
