@@ -4,44 +4,45 @@
 
 using namespace std;
 
-
 /*
-* description: function draws each letter of its respective text file
-* return: void
-* precondition: int[26][15][20] exist
-* postcondition: defines each letter
+* description: Used to initialize the font.
+* return: Void.
+* precondition: Array to hold the characters.
+* postcondition: Letters are initialized.
 */
-
 void fontInit(int [26][15][20]);
-
 /*
-* description: function draws each number of its respective text file
-* return: void
-* precondition: int[10][15][20] exist
-* postcondition: defines each number
+* description: Used to initialize the Numbers.
+* return: Void.
+* precondition: Array to hold the numbers.
+* postcondition: Numbers are initialized.
 */
-
 void numInit(int [10][15][20]);
-
-
-void displayCharMenu(SDL_Plotter& g, int Font[26][15][20], int c, int x, int y, color erse, color plot, color txt, int shift);
-
-
-void displayString(SDL_Plotter& g, int Font[26][15][20], int x, int y, string str, color clr, int s = 5, int spc = 20);
-
-
 /*
-*
-*
-*
-*
+ * Description: Displays the characters that move in the menu.
+ * Return: Void.
+ * Precondition: Existing plotter, Font Array, Character, x and y values for plotting, 3 colors, and shift.
+ * Postcondition: Menu chracters are displayed.
+ */
+void displayCharMenu(SDL_Plotter& g, int Font[26][15][20], int c, int x, int y, color erse, color plot, color txt, int shift);
+/*
+ * Description: Displays a string to the screen.
+ * Return: Void.
+ * Precondition: Existing Plotter, Font Array, x and y values for plotting, color, size value, and spacing value.
+ * Postcondition: The string is printed.
+ */
+void displayString(SDL_Plotter& g, int Font[26][15][20], int x, int y, string str, color clr, int s = 5, int spc = 20);
+/*
+* Description: Displays a character to the screen.
+* Return: Void.
+* Precondition: Existing Plotter, Font Array, x and y values for plotting, color, size value, and spacing value.
+* Postcondition: The character is printed.
 */
 void displayChar(SDL_Plotter& g, int Font[26][15][20], int c, int x, int y, color clr, int s = 10, int spc = 200);
-
 /*
-* description: function plots pixels to form a string named: "FALLINGBALLS"
-* return: void
-* precondition: an SDL_Plotter& and int[26][15][20] exist
-* postcondition: draws the letters needed to form the title of the game
+* Description: Displays the score.
+* Return: Void.
+* Precondition: Existing Plotter, Font Array, x and y values for plotting, color, and score value.
+* Postcondition: The score is printed.
 */
 void displayScore(SDL_Plotter& g, int Font[10][15][20], int x, int y, color clr, int score);
