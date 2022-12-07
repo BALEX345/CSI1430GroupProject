@@ -1,15 +1,39 @@
+/*
+ * Authors: Samuel Fries
+ *          Alejandro Garcia Jr
+ *          Christian Wright
+ *          Luke Heard
+ *          Zac Benson
+ *
+ *          sam_fries1
+ *          alex_garcia17
+ *          christian_wright2
+ *          luke_heard1
+ *          zac_benson1
+ *
+ * Assignment Title: CSI1430 Group Project - Snake Game
+ * Assignment Description: This program creates a working Snake Game.
+ *                         The game asks for a Name, and Pin (these are saved)
+ *                         Contains a menu screen, game screen, and outro.
+ * Due Date: 12/07/2022
+ * Date Created: 11/24/2022
+ * Date Last Modified: 12/07/2022
+ *
+ * Data Abstraction: Creates all necessary variables to make our snake game.
+ * Input:            Takes in the users name and pin and stores them into a file. (This is used to save high scores.)
+ * Process:          Creates the game, displays the menu screen with instructions, displays the game screen,
+ *                   lets the user play the game.
+ * Output:           A working game is output to the screen.
+ * Assumptions:      Assumes that the user has a working computer.
+ *                   Assumes that the user can follow instructions.
+ */
+
 #include <iostream>
 #include <string>
-#include <fstream>
+#include <stdlib.h>
+#include <ctime>
 #include "SDL_Plotter.h"
 #include "Player.h"
-
-
-//FOR SCORE TESTING REMOVE LATER
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <ctime>
 #include "Snake.h"
 #include "TEXT.h"
 #include "Music.h"
@@ -39,9 +63,6 @@ const int SNAP_SIZE = 50;
 
 int main(int argc, char **argv)
 {
-
-//    GameFunctions game;
-
     char key;
 
     //Music class
@@ -51,9 +72,7 @@ int main(int argc, char **argv)
     int letters[26][15][20];
     int numbers[10][15][20];
 
-    //FOR SCORE TESTING REMOVE LATER
     srand(time(NULL));
-
 
     string userName = "";
     string pin = "";
@@ -89,7 +108,6 @@ int main(int argc, char **argv)
     int textCounter = 0;
     int textCounterShift = 10;
 
-
     ofstream outFS;
     ifstream inFS;
 
@@ -117,7 +135,6 @@ int main(int argc, char **argv)
     point xyLoc(450 + FAKE_SHIFT, 450 + FAKE_SHIFT);
     point xyLocPrev(400 + FAKE_SHIFT, 450 + FAKE_SHIFT);
 
-
     Snake snake;
     point fruit;
 
@@ -125,13 +142,9 @@ int main(int argc, char **argv)
     numInit(numbers);
 
     //LOADING FILE
-    cout << "LOADING FILE..." << endl;
-
     inFS.open("SnakeLeaderBoard.txt");
 
     if(!inFS){
-
-        cout << "Err: FILE NOT FOUND\nCREATING LEADERBOARD FILE..." << endl;
 
         outFS.open("SnakeLeaderBoard.txt");
         outFS.close();
@@ -140,9 +153,6 @@ int main(int argc, char **argv)
         }
     }
     else{
-
-        cout << "LEADERBOARD FOUND" << endl;
-        cout << "LOADING LEADERBOARD..." << endl;
 
         while(inFS >> nameHolder){
             inFS >> junkStr;
@@ -154,7 +164,6 @@ int main(int argc, char **argv)
         }
     }
     inFS.close();
-
 
     //Game loop
     while (!g.getQuit())
@@ -275,11 +284,10 @@ int main(int argc, char **argv)
                     }
                 }
             }
-
         }
 
         // Process
-        // ---- Menu Process
+        // Menu Process
         if(menu){
             if(menuStart){
                 m.menuMusic(g);
@@ -295,28 +303,29 @@ int main(int argc, char **argv)
                 leaderBoard.sortBoard();
                 g.backgroundColor(MENU_BK_COLOR);
                 sum = 0;
+
                 if(nameSet){
                     displayString(g, letters, 0, 500 , "PLAYER", TEXT_COLOR, 1, 30);
+
                     for(int i = 0, shift = 50; i < 5; i++, shift += 50){
                         displayString(g, letters, 0, 500 + shift, leaderBoard.getPlayerName(i), TEXT_COLOR, 2, 40);
                         displayScore(g, numbers, 625, 500 + shift, TEXT_COLOR, leaderBoard.getPlayerScore(leaderBoard.getPlayerName(i)));
-
                     }
-                    displayString(g, letters, 200, 375, userName, TEXT_COLOR, 2, 40);
 
+                    displayString(g, letters, 200, 375, userName, TEXT_COLOR, 2, 40);
                     displayString(g, letters, 400, 500, "HIGHSCORE", TEXT_COLOR, 1, 30);
                     displayScore(g, numbers, 400, 375, TEXT_COLOR, userHighScore);
                 }
+
                 else{
                     displayString(g, letters, -150, 500 , "USERNAME", TEXT_COLOR, 3, 50 );
-
-
                 }
-
             }
+
             if(nameSet && !pinSet){
                 displayString(g, letters, -150, 600 , "PIN", TEXT_COLOR, 3, 50 );
             }
+
             menuScoreDisplay = true;
 
             switch(textCounter){
@@ -332,7 +341,6 @@ int main(int argc, char **argv)
                 textCounter++;
                 if(nameSet && pinSet){
                     displayString(g, letters, 90, 850, "PRESS ENTER PLAY", ERASE_COLOR, 1, 30);
-
                 }
                 break;
             case 3:
@@ -348,7 +356,6 @@ int main(int argc, char **argv)
                 displayCharMenu(g, letters, 4, 655, 110, ERASE_COLOR, GRID_COLOR, TEXT_COLOR, textCounterShift);
                 if(nameSet && pinSet){
                     displayString(g, letters, 90, 850, "PRESS ENTER PLAY", TEXT_COLOR, 1, 30);
-
                 }
                 textCounter++;
                 break;
@@ -360,13 +367,9 @@ int main(int argc, char **argv)
             default:
                 textCounter++;
             }
-
-
-
         }
 
-
-        // ---- Game Process
+        //Game Process
         else if(!menu){
             if(soundStart){
                 m.playMusic(g);
@@ -454,17 +457,13 @@ int main(int argc, char **argv)
                 }
             }
 
-
             g.plotFruit(snake.getPoint(snake.getLength()), GAME_ERASE_COLOR, SIZE);
-
-
 
             // Draw
             for(int i = 0; i < snake.getLength(); i++){
                 g.plotFruit(snake.getPoint(i), SNAKE_COLOR, SIZE);
 
             }
-
 
             if (xyLoc.x > FAKE_ROW - FAKE_SHIFT * 2|| xyLoc.x + SIZE - FAKE_SHIFT < 0 ||
                 xyLoc.y > FAKE_COL - FAKE_SHIFT * 2|| xyLoc.y - FAKE_SHIFT < 0 ||
@@ -522,9 +521,7 @@ int main(int argc, char **argv)
             g.update();
 
         }
-
         g.Sleep(speed);
-
     }
 
     //Exit game process
@@ -546,8 +543,6 @@ int main(int argc, char **argv)
         }
     }
     outFS.close();
-
-
 
     return 0;
 }
