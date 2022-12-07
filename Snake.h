@@ -1,69 +1,60 @@
 #ifndef SNAKE_H_INCLUDED
 #define SNAKE_H_INCLUDED
 
+#include <vector>
 #include "SDL_Plotter.h"
-#include <string>
-
 using namespace std;
 
-const string GAME_MUSIC = "SNAKE!.mp3";
-const string MENU_MUSIC = "SnakeMenu.mp3";
+const int MAX_LENGTH = 200;
 
-class Music{
+class Snake{
 private:
-    string arr[10] = {"SnakeHit1.wav", "SnakeHit2.wav", "SnakeHit3.wav", "SnakeHit4.wav",
-                      "SnakeHit5.wav","Eat1.wav", "Eat2.wav", "Eat3.wav", "Eat4.wav", "Eat5.wav"};
+    point snakeXY[MAX_LENGTH];
+    int currLength = 1;
 public:
     /*
-     * Description: Initializes all the sounds for our game.
-     * Return: None.
-     * Precondition: Existing Plotter.
-     * Postcondition: Game sound is initialized.
-     */
-    void initSounds(SDL_Plotter &g);
-    /*
-    * Description: Plays the game theme song.
-    * Return: None.
-    * Precondition: Existing Plotter.
-    * Postcondition: Game theme plays when the user is on the game screen.
+    * Description: Gets the length of the snake.
+    * Return: Int.
+    * Precondition: None.
+    * Postcondition: Length of the snake.
     */
-    void playGameMusic(SDL_Plotter &g);
+    int getLength() const;
     /*
-    * Description: Stops playing the theme song.
-    * Return: None.
-    * Precondition: Existing plotter.
-    * Postcondition: Game theme stops playing.
+    * Description: Gets a point on the snake.
+    * Return: Point.
+    * Precondition: An integer.
+    * Postcondition: The point is returned.
     */
-    void stopGameMusic(SDL_Plotter &g);
+    point getPoint(int n) const;
     /*
-    * Description: Plays the menu music while the player is on the menu.
-    * Return: Void.
-    * Precondition: Existing Plotter.
-    * Postcondition: Menu theme starts playing.
-    */
-    void playMenuMusic(SDL_Plotter &g);
-    /*
-    * Description: Stops playing the menu music.
-    * Return: Void.
-    * Precondition: Existing Plotter.
-    * Postcondition: Menu theme stops playing.
-    */
-    void stopMenuMusic(SDL_Plotter &g);
-    /*
-     * Description: Plays a random hit sound from our pool.
+     * Description: Adds a point to the snake.
      * Return: Void.
-     * Precondition: Existing Plotter, number generated in main.
-     * Postcondition: Plays a random hit.
+     * Precondition: A point.
+     * Postcondition: A point is added.
      */
-    void playHit(SDL_Plotter &g, int r);
+    void addPoint(point p);
     /*
-    * Description: Plays a random munch sound from our pool.
-    * Return: Void.
-    * Precondition: Existing Plotter, number generated in main.
-    * Postcondition: Plays a random munch.
-    */
-    void playEat(SDL_Plotter &g, int r);
-
+     * Description: Updates the snake.
+     * Return: Void.
+     * Precondition: A point and a boolean.
+     * Postcondition: The updated snake.
+     */
+    void updatePoint(point p, bool flag);
+    /*
+     * Description: Resets the snake.
+     * Return: Void.
+     * Precondition: Previous and current coordinates.
+     * Postcondition: The snake is reset.
+     */
+    void resetSnake(point& prev, point& curr);
+    /*
+     * Description: Checks if the snake is touching a fruit.
+     * Return: Bool
+     * Precondition: An existing point, and a bool that checks for intersection.
+     * Postcondition: The bool is returned.
+     */
+    bool touchingFruit(point p, bool self);
 };
+
 
 #endif // SNAKE_H_INCLUDED
