@@ -36,9 +36,10 @@
 #include "Music.h"
 
 void Music::initSounds(SDL_Plotter &g){
-    g.initSound(GAME_MUSIC);
     g.initSound(MENU_MUSIC);
-    for(int i = 0; i < 19; i++){
+    g.initSound(GAME_MUSIC);
+    g.initSound(PAUSE_SFX);
+    for(int i = 0; i < 20; i++){
         g.initSound(arr[i]);
     }
 }

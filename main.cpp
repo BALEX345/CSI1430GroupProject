@@ -76,32 +76,34 @@ const int SNAP_SIZE = 50;
 int main(int argc, char **argv)
 {
 
-//    GameFunctions game;
-
-    char key;
-
-    //Music class
+    //Data Abstraction
+    // -- Music class
     Music m;
 
-    //Font Stuff
+    // -- Font variables
     int letters[26][15][20];
     int numbers[10][15][20];
+    fontInit(letters);
+    numInit(numbers);
 
-    //FOR SCORE TESTING REMOVE LATER
+    // -- Randomize
     srand(time(NULL));
 
-
+    // -- Current player info
     string userName = "";
     string pin = "";
-    string scoreString;
-
     int userScore = 0;
+    int userHighScore = 0;
+
+    // -- Text helper variables
     int counter = 0;
     int pinCounter = 0;
-    int userHighScore = 0;
     int wait = 0;
     int pauseShift = 0;
+    int textCounter = 0;
+    int textCounterShift = 10;
 
+    // -- Game helper variables
     bool menu = true;
     bool nameSet = false;
     bool startGame = false;
@@ -111,57 +113,42 @@ int main(int argc, char **argv)
     bool menuScoreDisplay = false;
     bool existingPlr = false;
 
-    //Sounds
+    // -- Sound helper variables
     int start = time(0);
     int start2 = 0;
     bool soundStart = false;
     bool menuStart = true;
 
-    int textCounter = 0;
-    int textCounterShift = 10;
-
-
+    // -- Leader board variables
+    Player leaderBoard;
     ofstream outFS;
     ifstream inFS;
-
-    //PlayerClass stuff
-    Player leaderBoard;
-
-    //Make it store into a vector class for easy sorting or searching
     string nameHolder;
     string junkStr;
     string junkPin;
+    int junkScore;
 
-    int score;
-
+    // -- Snake and plotter variables
+    char key;
     Direction dir = RIGHT;
-    int speed = 120; //60
-    int skip = 0, skip_value = 1; //5
-
-
+    int speed = 120;
+    int skip = 0, skip_value = 1;
     SDL_Plotter g(FAKE_ROW, FAKE_COL);
 
-    m.initSounds(g);
-
+    Snake snake;
     point xyLoc(450 + FAKE_SHIFT, 450 + FAKE_SHIFT);
     point xyLocPrev(400 + FAKE_SHIFT, 450 + FAKE_SHIFT);
-
-
-    Snake snake;
     point fruit;
 
-    fontInit(letters);
-    numInit(numbers);
+    // -- Load sounds
+    m.initSounds(g);
 
-    //LOADING FILE
-    cout << "LOADING FILE..." << endl;
 
+    //Input
+    // -- Read in or create new leaderboard
     inFS.open("SnakeLeaderBoard.txt");
-
     if(!inFS){
-
-        cout << "Err: FILE NOT FOUND\nCREATING LEADERBOARD FILE..." << endl;
-
+        // -- Make new leaderboard
         outFS.open("SnakeLeaderBoard.txt");
         outFS.close();
         for(int i = 0; i < 5; i++){
@@ -169,31 +156,30 @@ int main(int argc, char **argv)
         }
     }
     else{
-
-        cout << "LEADERBOARD FOUND" << endl;
-        cout << "LOADING LEADERBOARD..." << endl;
-
+        // -- Read existing leaderboard
         while(inFS >> nameHolder){
             inFS >> junkStr;
-            inFS >> score;
+            inFS >> junkScore;
             inFS >> junkStr;
             inFS >> junkPin;
-            leaderBoard.addPlayer(nameHolder, junkPin, score);
+            leaderBoard.addPlayer(nameHolder, junkPin, junkScore);
 
         }
     }
     inFS.close();
 
 
-    //Game loop
+    //Process
+    // -- Game loop
+    m.playSFX(g, 19);
     while (!g.getQuit())
     {
-
         if (g.kbhit())
         {
 
             key = g.getKey();
-            if(!menu){
+            if(!menu && wait == 0){
+                // -- Game interaction process
                 switch (key)
                 {
                 case UP_ARROW   :
@@ -224,10 +210,13 @@ int main(int argc, char **argv)
                     startGame = false;
                     pause = true;
                     pauseShift = 435;
+                    m.playSFX(g, 19);
+
                     break;
                 }
             }
             else if(menu){
+                // -- Menu interaction process
                 switch (key)
                 {
                 case RETURN     :
@@ -235,7 +224,7 @@ int main(int argc, char **argv)
                         nameSet = true;
                     }
                     else if(nameSet && pin.length() == 3){
-                        existingPlr = leaderBoard.checkPlayer(leaderBoard.searchBoard(userName), pin);
+                        existingPlr = leaderBoard.checkPlayer(leaderBoard.searchBoard(userName),pin);
                         if(leaderBoard.searchBoard(userName) == -1 ||
                            existingPlr){
                             if(existingPlr){
@@ -259,7 +248,8 @@ int main(int argc, char **argv)
                         }
                         else{
                             start2 = time(0);
-                            displayString(g, letters, 0, 450, "EXISTING PLAYER OR WRONG PIN ENTERED", TEXT_COLOR, 1);
+                            displayString(g, letters, 0, 450, "EXISTING PLAYER OR WRONG PIN ENTERED",
+                                          TEXT_COLOR, 1);
                             displayString(g, letters, -150, 600 , "PIN", ERASE_COLOR, 3, 50 );
                             displayString(g, numbers, 300, 600 , pin, ERASE_COLOR, 3, 50 );
                             displayString(g, letters, 300, 500 , userName, ERASE_COLOR, 3, 50 );
@@ -277,14 +267,16 @@ int main(int argc, char **argv)
                 case BACKSPACE   :
                     if(!nameSet && userName.length() > 0){
                         counter-=25;
-                        displayChar(g, letters, static_cast<int>(userName.back()) - 65, counter + 500, 500, ERASE_COLOR, 3, counter);
+                        displayChar(g, letters, static_cast<int>(userName.back()) - 65,
+                                    counter + 500, 500, ERASE_COLOR, 3, counter);
                         userName.pop_back();
 
 
                     }
                     else if(nameSet && !pinSet){
                         pinCounter -=25;
-                        displayChar(g, numbers, static_cast<int>(pin.back()) -48, pinCounter + 500, 600, ERASE_COLOR, 3, pinCounter);
+                        displayChar(g, numbers, static_cast<int>(pin.back()) -48,
+                                    pinCounter + 500, 600, ERASE_COLOR, 3, pinCounter);
                         pin.pop_back();
                     }
                     break;
@@ -292,14 +284,16 @@ int main(int argc, char **argv)
                     if(!nameSet && key >= 97 && key <= 122) {
                             if(!nameSet && userName.length() < 5){
                                 userName += key-32;
-                                displayChar(g, letters, static_cast<int>(key) - 97, counter + 500, 500, TEXT_COLOR, 3, counter);
+                                displayChar(g, letters, static_cast<int>(key) - 97,
+                                            counter + 500, 500, TEXT_COLOR, 3, counter);
                                 counter+=25;
                             }
                        }
                     else if(nameSet && !pinSet && pin.length() < 3){
                         if(key >= 48 && key <= 57){
                             pin += key;
-                            displayChar(g, numbers, static_cast<int>(key) -48, pinCounter + 500, 600, TEXT_COLOR, 3, pinCounter);
+                            displayChar(g, numbers, static_cast<int>(key) -48,
+                                        pinCounter + 500, 600, TEXT_COLOR, 3, pinCounter);
                             pinCounter+=25;
                         }
                     }
@@ -308,10 +302,9 @@ int main(int argc, char **argv)
 
         }
 
-        // Process
-        // ---- Menu Process
+        // -- Menu process
         if(menu){
-            if(menuStart){
+            if(menuStart && !pause && time(0) > start+1){
                 m.playMenuMusic(g);
                 menuStart = false;
             }
@@ -326,14 +319,17 @@ int main(int argc, char **argv)
                 if(nameSet){
                     displayString(g, letters, -50, 500 , "PLAYER", TEXT_COLOR, 1, 30);
                     for(int i = 0, shift = 50; i < 5; i++, shift += 50){
-                        displayString(g, letters, -50, 500 + shift, leaderBoard.getPlayerName(i), TEXT_COLOR, 2, 40);
-                        displayScore(g, numbers, 625, 500 + shift, TEXT_COLOR, leaderBoard.getPlayerScore(leaderBoard.getPlayerName(i)));
+                        displayString(g, letters, -50, 500 + shift, leaderBoard.getPlayerName(i),
+                                     TEXT_COLOR, 2, 40);
+                        displayScore(g, numbers, 625, 500 + shift, TEXT_COLOR,
+                                     leaderBoard.getPlayerScore(leaderBoard.getPlayerName(i)));
                     }
                     displayString(g, letters, -50, 375, userName, TEXT_COLOR, 2, 40);
 
                     displayString(g, letters, 400, 500, "HIGHSCORE", TEXT_COLOR, 1, 30);
                     displayString(g, letters, 475, 435, "LAST", TEXT_COLOR, 1, 20);
                     displayString(g, letters, 475, 385, "HIGH", TEXT_COLOR, 1, 20);
+                    displayString(g, letters, 215, 900, "ESC EXIT", TEXT_COLOR, 1, 20);
                     displayScore(g, numbers, 625, 375, TEXT_COLOR, userHighScore);
                     displayScore(g, numbers, 625, 425, TEXT_COLOR, userScore);
                 }
@@ -349,35 +345,43 @@ int main(int argc, char **argv)
             }
             menuScoreDisplay = true;
 
+            // -- Fancy menu screen text process
             switch(textCounter){
             case 0:
                 textCounter++;
                 break;
             case 1:
-                displayCharMenu(g, letters, 18, -185, 110, ERASE_COLOR, GRID_COLOR, TEXT_COLOR, textCounterShift);
+                displayCharMenu(g, letters, 18, -185, 110, ERASE_COLOR,
+                                GRID_COLOR, TEXT_COLOR, textCounterShift);
                 textCounter++;
                 break;
             case 2:
-                displayCharMenu(g, letters, 13, 25, 110, ERASE_COLOR, GRID_COLOR, TEXT_COLOR, textCounterShift);
+                displayCharMenu(g, letters, 13, 25, 110, ERASE_COLOR,
+                                GRID_COLOR, TEXT_COLOR, textCounterShift);
                 textCounter++;
                 if(nameSet && pinSet){
-                    displayString(g, letters, 45, 850 - pauseShift, "PRESS ENTER PLAY", ERASE_COLOR, 1, 30);
+                    displayString(g, letters, 45, 850 - pauseShift, "PRESS ENTER PLAY",
+                                   ERASE_COLOR, 1, 30);
 
                 }
                 break;
             case 3:
-                displayCharMenu(g, letters, 0, 235, 110, ERASE_COLOR, GRID_COLOR, TEXT_COLOR, textCounterShift);
+                displayCharMenu(g, letters, 0, 235, 110, ERASE_COLOR, GRID_COLOR,
+                                TEXT_COLOR, textCounterShift);
                 textCounter++;
                 break;
             case 4:
-                displayCharMenu(g, letters, 10, 445, 110, ERASE_COLOR, GRID_COLOR, TEXT_COLOR, textCounterShift);
+                displayCharMenu(g, letters, 10, 445, 110, ERASE_COLOR, GRID_COLOR,
+                                TEXT_COLOR, textCounterShift);
 
                 textCounter++;
                 break;
             case 5:
-                displayCharMenu(g, letters, 4, 655, 110, ERASE_COLOR, GRID_COLOR, TEXT_COLOR, textCounterShift);
+                displayCharMenu(g, letters, 4, 655, 110, ERASE_COLOR, GRID_COLOR,
+                                TEXT_COLOR, textCounterShift);
                 if(nameSet && pinSet){
-                    displayString(g, letters, 45, 850 - pauseShift, "PRESS ENTER PLAY", TEXT_COLOR, 1, 30);
+                    displayString(g, letters, 45, 850 - pauseShift, "PRESS ENTER PLAY",
+                                  TEXT_COLOR, 1, 30);
                 }
                 textCounter++;
                 break;
@@ -395,7 +399,7 @@ int main(int argc, char **argv)
         }
 
 
-        // ---- Game Process
+        // -- Game process
         else if(!menu){
             if(soundStart){
                 m.playGameMusic(g);
@@ -408,18 +412,22 @@ int main(int argc, char **argv)
             if(startGame == true){
                 textCounter = 0;
                 g.backgroundColor(GAME_BK_COLOR);
-                displayString(g, letters, -100, 865, "MUSIC BY JOSH PRIOR", TEXT_COLOR, 1, 20);
+                displayString(g, letters, -100, 865, "MUSIC BY JOSH PRIOR",
+                              TEXT_COLOR, 1, 15);
+                displayString(g, letters, 430, 865, "SPACE  PAUSE",
+                              TEXT_COLOR, 1, 15);
+                displayScore(g, numbers, 725, 100, TEXT_COLOR, userScore);
 
                 for(int i = -1; i <= NUM_ROW; i+=SNAP_SIZE){
                     for(int j = 0 + FAKE_SHIFT; j < NUM_COL - FAKE_SHIFT / 2; j++){
                         g.plotPixel(i, j, GRID_COLOR);
                         g.plotPixel(j, i, GRID_COLOR);
-
                     }
                 }
                 startGame = false;
-            }
 
+            }
+            // -- Spawn fruit
             if(!fruitSpawned){
                 fruit.spawnFruit(NUM_COL);
                 if(snake.touchingFruit(fruit, true)){
@@ -429,9 +437,13 @@ int main(int argc, char **argv)
 
                 fruitSpawned = true;
             }
-            else if (snake.touchingFruit(fruit, false)){
+            else if (snake.touchingFruit(fruit, false) ){
+                // -- Add point, extend snake
                 snake.addPoint(xyLocPrev);
+                displayScore(g, numbers, 725, 100, GAME_ERASE_COLOR, userScore);
                 userScore++;
+                displayScore(g, numbers, 725, 100, TEXT_COLOR, userScore);
+
                 m.playSFX(g, rand()%5 +14);
                 if(userScore > userHighScore){
                     userHighScore = userScore;
@@ -439,7 +451,9 @@ int main(int argc, char **argv)
                 g.plotSquare(fruit, GAME_ERASE_COLOR, SIZE);
                 fruitSpawned = false;
             }
+            // -- Re-plot fruit on unpause
             else if(pause){
+
                 g.plotSquare(fruit, FRUIT_COLOR, SIZE);
                 pause = false;
                 pauseShift = 0;
@@ -469,34 +483,37 @@ int main(int argc, char **argv)
             }
 
 
-            g.plotSquare(snake.getPoint(snake.getLength()), GAME_ERASE_COLOR, SIZE);
+
+            g.plotSquare(snake.getPoint(snake.getLength()), GAME_ERASE_COLOR,
+                         SIZE);
 
 
 
-            // Draw
+            // -- Draw
             for(int i = 0; i < snake.getLength(); i++){
                 g.plotSquare(snake.getPoint(i), SNAKE_COLOR, SIZE);
 
             }
 
 
-            if (xyLoc.x > FAKE_ROW - FAKE_SHIFT * 2|| xyLoc.x + SIZE - FAKE_SHIFT < 0 ||
-                xyLoc.y > FAKE_COL - FAKE_SHIFT * 2|| xyLoc.y - FAKE_SHIFT < 0 ||
-
+            if (xyLoc.x > FAKE_ROW - FAKE_SHIFT * 2||
+                xyLoc.x + SIZE - FAKE_SHIFT < 0 ||
+                xyLoc.y > FAKE_COL - FAKE_SHIFT * 2||
+                xyLoc.y - FAKE_SHIFT < 0 ||
                 snake.touchingFruit(snake.getPoint(0), true)){
+
                 if(wait == 0){
-                    m.playSFX(g, rand()%13);
+                    m.playSFX(g, rand()%14);
                 }
                 wait++;
-
                 for(int i = snake.getLength(); i >= wait; i--){
-                    for(int j = 0; j <= wait; j++){
-                        g.plotSquare(snake.getPoint(j-1), FRUIT_COLOR, SIZE);
+                    for(int j = 0; j < wait; j++){
+                        g.plotSquare(snake.getPoint(j), FRUIT_COLOR, SIZE);
                     }
                 }
 
                 if(wait == snake.getLength()){
-                    if(!leaderBoard.checkPlayer(leaderBoard.searchBoard(userName), pin)){
+                    if(!leaderBoard.checkPlayer(leaderBoard.searchBoard(userName),pin)){
                         leaderBoard.addPlayer(userName, pin, userHighScore);
                     }
                     else{
@@ -526,27 +543,15 @@ int main(int argc, char **argv)
 
     }
 
-    //Exit game process
-    m.stopMenuMusic(g);
-    m.stopGameMusic(g);
 
+    //Output
     outFS.open("SnakeLeaderBoard.txt");
-    if(userName.size() != 0 && pin.size() == 3){
-
-        leaderBoard.sortBoard();
-
-        for(int i = 0; i <= leaderBoard.getPlayerCount()-1; i++){
-            leaderBoard.printBoardRow(outFS, i, true);
-        }
+    leaderBoard.sortBoard();
+    for(int i = 0; i <= leaderBoard.getPlayerCount()-1; i++){
+        leaderBoard.printBoardRow(outFS, i, true);
     }
-    else{
-        for(int i = 0; i <= leaderBoard.getPlayerCount()-1; i++){
-            leaderBoard.printBoardRow(outFS, i, true);
-        }
-    }
+
     outFS.close();
-
-
 
     return 0;
 }

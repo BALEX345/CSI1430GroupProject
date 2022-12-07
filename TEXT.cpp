@@ -43,8 +43,6 @@ void fontInit(int Font[26][15][20]){
     string trash1, trash2;
     int letter;
 
-    // OPENS EACH LETTER FILE
-
     inputFile[0].open("Letters/A.txt");
     inputFile[1].open("Letters/B.txt");
     inputFile[2].open("Letters/C.txt");
@@ -72,8 +70,6 @@ void fontInit(int Font[26][15][20]){
     inputFile[24].open("Letters/Y.txt");
     inputFile[25].open("Letters/Z.txt");
 
-    // CLOSES EACH LETTER FILE
-
     for(int i = 0; i < 26; i++){
         getline(inputFile[i], trash1);
         getline(inputFile[i], trash2);
@@ -93,8 +89,6 @@ void numInit(int numArray[10][15][20]){
     string trash1, trash2;
     int letter;
 
-    // OPENS EACH NUMBER FILE
-
     inputFile2[0].open("Numbers/0.txt");
     inputFile2[1].open("Numbers/1.txt");
     inputFile2[2].open("Numbers/2.txt");
@@ -105,8 +99,6 @@ void numInit(int numArray[10][15][20]){
     inputFile2[7].open("Numbers/7.txt");
     inputFile2[8].open("Numbers/8.txt");
     inputFile2[9].open("Numbers/9.txt");
-
-    // CLOSES EACH NUMBER FILE
 
     for(int i = 0; i < 10; i++){
         getline(inputFile2[i], trash1);

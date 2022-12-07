@@ -47,11 +47,11 @@ const string PAUSE_SFX = "SnakePause.mp3";
 
 class Music{
 private:
-    string arr[19] = {"SnakeHit1.wav", "SnakeHit2.wav", "SnakeHit3.wav", "SnakeHit4.wav",
+    string arr[20] = {"SnakeHit1.wav", "SnakeHit2.wav", "SnakeHit3.wav", "SnakeHit4.wav",
                       "SnakeHit5.wav", "SnakeHit6.mp3", "SnakeHit7.mp3", "SnakeHit8.mp3",
                       "SnakeHit9.mp3", "SnakeHit10.mp3", "SnakeHit11.mp3", "SnakeHit12.mp3",
-                      "SnakeHit13.mp3",
-                      "SnakeHit5.wav","Eat1.wav", "Eat2.wav", "Eat3.wav", "Eat4.wav", "Eat5.wav"};
+                      "SnakeHit13.mp3", "SnakeHit14.mp3","Eat1.wav", "Eat2.wav", "Eat3.wav",
+                      "Eat4.wav", "Eat5.wav", PAUSE_SFX};
 public:
     /*
      * Description: Initializes all the sounds for our game.
