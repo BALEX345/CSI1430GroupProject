@@ -110,7 +110,9 @@ bool SDL_Plotter::getQuit(){
 			if(currentKeyStates[SDL_SCANCODE_RIGHT]) key_queue.push(RIGHT_ARROW);
 			if(currentKeyStates[SDL_SCANCODE_BACKSPACE]) key_queue.push(BACKSPACE);
 			if(currentKeyStates[SDL_SCANCODE_RETURN])key_queue.push(RETURN);
+			if(currentKeyStates[SDL_SCANCODE_GRAVE])key_queue.push(GRAVE);
 			if(currentKeyStates[SDL_SCANCODE_SPACE])key_queue.push(SPACE);
+			if(currentKeyStates[SDL_SCANCODE_ESCAPE])key_queue.push(ESCAPE);
 		}
 		else if(event.type == SDL_MOUSEBUTTONUP){
 			point p;
@@ -130,6 +132,10 @@ bool SDL_Plotter::getQuit(){
 		}
 	}
 	return quit;
+}
+
+void SDL_Plotter::callQuit(){
+    ;
 }
 
 bool SDL_Plotter::kbhit(){

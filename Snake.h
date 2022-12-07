@@ -5,7 +5,7 @@
 #include "SDL_Plotter.h"
 using namespace std;
 
-const int MAX_LENGTH = 50;
+const int MAX_LENGTH = 200;
 
 class Snake{
 private:

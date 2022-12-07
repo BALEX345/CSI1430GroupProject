@@ -21,7 +21,7 @@ void Player::removePlayer(int n){
 }
 void Player::removeExtra(){
     for(int i = getPlayerCount()-1; i >= 0; i--){
-        if(board.at(i).name == "N/A" && getPlayerCount() > 10){
+        if(board.at(i).name == "NONE" && getPlayerCount() > 5){
             removePlayer(i);
         }
     }

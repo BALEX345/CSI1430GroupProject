@@ -43,6 +43,8 @@ const char RIGHT_ARROW = 4;
 const char RETURN = 5;
 const char SPACE = 6;
 const char BACKSPACE = 7;
+const char GRAVE = 8;
+const char ESCAPE = 9;
 const int RED_SHIFT    = 65536;
 const int GREEN_SHIFT  = 256;
 const int BLUE_SHIFT   = 1;
@@ -159,6 +161,7 @@ public:
     void setQuit(bool flag);
 
     bool kbhit();
+    void callQuit();
     bool mouseClick();
     char getKey();
     point getMouseClick();
