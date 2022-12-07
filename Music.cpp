@@ -3,6 +3,7 @@
 void Music::initSounds(SDL_Plotter &g){
     g.initSound(GAME_MUSIC);
     g.initSound(MENU_MUSIC);
+    g.initSound(OUTRO_MUSIC);
     for(int i = 0; i < 10; i++){
         g.initSound(arr[i]);
     }
@@ -16,6 +17,7 @@ void Music::stopMusic(SDL_Plotter &g){
     g.quitSound(GAME_MUSIC);
     g.initSound(GAME_MUSIC);
 }
+
 
 void Music::menuMusic(SDL_Plotter &g){
     g.playSound(MENU_MUSIC);
@@ -37,5 +39,9 @@ void Music::playEat(SDL_Plotter &g, int r){
         r = 5;
     }
     g.playSound(arr[r+5]);
+}
+
+void Music::playOutro(SDL_Plotter &g){
+    g.playSound(OUTRO_MUSIC);
 }
 
