@@ -157,6 +157,10 @@ public:
     ~SDL_Plotter();
     void update();
 
+    //NEW STUFF
+    void plotFruit(point f, color c, int s);
+    void backgroundColor(int c);
+
     bool getQuit();
     void setQuit(bool flag);
 
@@ -171,14 +175,7 @@ public:
     void plotPixel(int x, int y, color=color{});
     void plotPixel(point p, color=color{});
 
-    //NEW: Plots a square given amount distance from middle
-    //     Ex: When a = 5, it's a 5x5 square
-    void plotFruit(point f, color c, int s);
-
     void clear();
-
-    //NEW: Changes background color given a color 0-255
-    void backgroundColor(int c);
 
     int getRow();
     int getCol();
